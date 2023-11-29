@@ -29,7 +29,6 @@ public class JuegoPiedras {
             player1(piedrasTotales);
         }else
             System.out.println("Lo siento Jugador 1, haz perdido :c");
-
         
     }
 
@@ -51,6 +50,7 @@ public class JuegoPiedras {
         }while(piedrasTomadas < 1 || piedrasTomadas > 4);
 
         System.out.println("Piedras tomadas: " +piedrasTomadas);
+        in.close();
         return piedrasTomadas;
     }
 
