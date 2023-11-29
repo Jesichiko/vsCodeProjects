@@ -2,7 +2,7 @@ package juegopiedras;
 
 import java.util.Scanner;
 
-public class Main {
+public class JuegoPiedras {
     public static void main(String[] args) {
 
         int piedrasIniciales = 21;
