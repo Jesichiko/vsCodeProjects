@@ -47,9 +47,9 @@ public class VistasControlador implements ActionListener{
         
         try{ //Generalizamos el try-catch
             
-            if(e.getSource() != null ){
+            if(e.getSource() != null ){ //Si la ventana existe
 
-                 if(e.getSource() == login.btnIngresar ){ //Si se clickea el boton de login
+                if(e.getSource() == login.btnIngresar ){ //Si se clickea el boton de login
                     if(login.txtUsuario.getText().equals("Ingresa tu usuario")){ //Si no se agrega informacion al campo se envia un mensaje de error
                         throw new CampoVacioException("Ingresa informacion al campo de usuario");
                     }
@@ -64,8 +64,8 @@ public class VistasControlador implements ActionListener{
                         AvisosVentanas.IngresoExitoso(); //Se le notifica al usuario su registro exitoso
                         login.dispose(); //Se cierra la venta del login
                     
-                        menu = new MenuVista(this); //Creamos un nuevo panel de registro con esta misma clase como controlador
-                        menu.setVisible(true); //Se hace visible el panel del menu
+                        menu = new MenuVista(this); //Creamos un nuevo panel de menu con esta misma clase como controlador
+                        menu.setVisible(true); //Se hace visible el menu
                         
                     }else //Si no es la contraseña del usuario
                         AvisosVentanas.error("Error, " + login.txtUsuario.getText() + ", tu contraseña es distinta");
