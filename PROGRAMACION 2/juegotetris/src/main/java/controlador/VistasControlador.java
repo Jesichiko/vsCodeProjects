@@ -13,12 +13,13 @@ import java.io.IOException;
 
 public class VistasControlador implements ActionListener{
     
-    LoginVista login;
-    RegistroVista registro;
-    MenuVista menu;
-    UsuarioModelo modelo;
-    ArchivoUsuarios usuarios;
-    int ID;
+    
+    private LoginVista login;
+    private RegistroVista registro = new RegistroVista(this);
+    private MenuVista menu = new MenuVista(this);;
+    private UsuarioModelo modelo;
+    private ArchivoUsuarios usuarios;
+    private int ID;
 
     public void setLogin(LoginVista login) {
         
@@ -47,72 +48,67 @@ public class VistasControlador implements ActionListener{
         
         try{ //Generalizamos el try-catch
             
-            if(e.getSource() != null ){ //Si la ventana existe
-
-                if(e.getSource() == login.btnIngresar ){ //Si se clickea el boton de login
-                    if(login.txtUsuario.getText().equals("Ingresa tu usuario")){ //Si no se agrega informacion al campo se envia un mensaje de error
-                        throw new CampoVacioException("Ingresa informacion al campo de usuario");
-                    }
-                    
-                    ID = usuarios.buscarUsuario(login.txtUsuario.getText()); //Se busca a el usuario
-                    if(ID == -1){ //Si no se encontro el usuario se retorna un -1
-                        throw new UsuarioNoExisteException(); 
-                    }
-                    
-                    if( usuarios.acceder(ID, login.txtPassword.getPassword() ) ){//Si se ingresa correctamente se despliega el menu
-                        
-                        AvisosVentanas.IngresoExitoso(); //Se le notifica al usuario su registro exitoso
-                        login.dispose(); //Se cierra la venta del login
-                    
-                        menu = new MenuVista(this); //Creamos un nuevo panel de menu con esta misma clase como controlador
-                        menu.setVisible(true); //Se hace visible el menu
-                        
-                    }else //Si no es la contraseña del usuario
-                        AvisosVentanas.error("Error, " + login.txtUsuario.getText() + ", tu contraseña es distinta");
-
-                }else if(e.getSource() == login.btnRegistro){
-                        
-                    //Creamos un nuevo panel de registro con esta misma clase como controlador
-                    registro = new RegistroVista(this); 
-                    registro.setVisible(true);
-
-                }else if(e.getSource() == registro.btnRegistrarse){
-
-                    //Si no se escribio nada en los campos de registro
-                    if(registro.txtUsuario.getText().equals("Ej: ElPro1234")|| registro.txtPassword.getText().equals("Ej: OmocatLLSPP") ){
-                        throw new CampoVacioException();
-                    }
-                    
-                    //Se pasan los valores al modelo
-                    modelo.setUser(registro.txtUsuario.getText());
-                    modelo.setPassword(registro.txtPassword.getText());
-                    
-                    //Se valida si el usuario escrito ya existe o no
-                    if( usuarios.buscarUsuario( modelo.getUser() ) != -1){
-                        AvisosVentanas.error(" Este usuario ya existe, intenta ingresar");
-                    }else{
-                        usuarios.escribirEnArchivo(modelo.getUser(), modelo.getPassword());
-                        AvisosVentanas.registroExitoso();
-                        
-                        //Se pone automaticamente la informacion escrita por el usuario en los campos de Iniciar Sesion
-                        login.txtUsuario.setText(modelo.getUser());
-                        login.txtPassword.setText(modelo.getPassword());    
-                        registro.dispose(); //Se cierra la vista del registro
-                    }
-
-                }else if (e.getSource() == menu.btnJugar){
-            
-                    menu.dispose();
-                    Tetris tetris = new Tetris();
-                    tetris.blockgen();
+            if(e.getSource() == login.btnIngresar ){ //Si se clickea el boton de login
+                if(login.txtUsuario.getText().equals("Ingresa tu usuario")){ //Si no se agrega informacion al campo se envia un mensaje de error
+                    throw new CampoVacioException("Ingresa informacion al campo de usuario");
+                }
                 
-                }else{ //Boton de puntuaciones
+                ID = usuarios.buscarUsuario(login.txtUsuario.getText()); //Se busca a el usuario
+                if(ID == -1){ //Si no se encontro el usuario se retorna un -1
+                    throw new UsuarioNoExisteException(); 
+                }
+                
+                if( usuarios.acceder(ID, login.txtPassword.getPassword() ) ){//Si se ingresa correctamente se despliega el menu
                     
-                        //Abrir las puntuaciones
-                        
+                    AvisosVentanas.IngresoExitoso(); //Se le notifica al usuario su registro exitoso
+                    login.dispose(); //Se cierra la venta del login
+                
+                    //Se hace visibile el menu
+                    menu.setVisible(true);
+                    
+                }else //Si no es la contraseña del usuario
+                    AvisosVentanas.error("Error, " + login.txtUsuario.getText() + ", tu contraseña es distinta");
+
+            }else if(e.getSource() == login.btnRegistro){
+                    
+                //Hacemos visible el registro
+                registro.setVisible(true);
+
+            }else if(e.getSource() == registro.btnRegistrarse){
+
+                //Si no se escribio nada en los campos de registro
+                if(registro.txtUsuario.getText().equals("Ej: ElPro1234")|| registro.txtPassword.getText().equals("Ej: OmocatLLSPP") ){
+                    throw new CampoVacioException();
+                }
+                
+                //Se pasan los valores al modelo
+                modelo.setUser(registro.txtUsuario.getText());
+                modelo.setPassword(registro.txtPassword.getText());
+                
+                //Se valida si el usuario escrito ya existe o no
+                if( usuarios.buscarUsuario( modelo.getUser() ) != -1){
+                    AvisosVentanas.error(" Este usuario ya existe, intenta ingresar");
+                }else{
+                    usuarios.escribirEnArchivo(modelo.getUser(), modelo.getPassword());
+                    AvisosVentanas.registroExitoso();
+                    
+                    //Se pone automaticamente la informacion escrita por el usuario en los campos de Iniciar Sesion
+                    login.txtUsuario.setText(modelo.getUser());
+                    login.txtPassword.setText(modelo.getPassword());    
+                    registro.dispose(); //Se cierra la vista del registro
                 }
 
-            } 
+            }else if (e.getSource() == menu.btnJugar){
+        
+                menu.dispose();
+                Tetris tetris = new Tetris();
+                tetris.blockgen();
+            
+            }else{ //Boton de puntuaciones
+                
+                    //Abrir las puntuaciones
+                    
+            }
 
         }catch(CampoVacioException | UsuarioNoExisteException | IOException ex){ //Si se encuentra una Excepcion se encuentra y se cacha
             

@@ -6,8 +6,7 @@ import java.awt.event.FocusEvent;
 import javax.swing.JTextField;
 
 public class PlaceHolder{
-   
-            
+        
     public PlaceHolder(JTextField campo, String placeHolder){
         campo.setForeground(Color.GRAY); // Color de texto del placeholder
         campo.setText(placeHolder);
@@ -29,6 +28,8 @@ public class PlaceHolder{
                     campo.setText(placeHolder); // Se cambia el color de la letra a gris para el placeHolder
                 }
             }
+            
         });
-    }    
+    }  
+
 }

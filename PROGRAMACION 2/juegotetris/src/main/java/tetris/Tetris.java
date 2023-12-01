@@ -307,8 +307,8 @@ public class Tetris extends JFrame implements KeyListener {
         addKeyListener(this); //Esto significa que el JFrame está escuchando eventos del teclado y tiene métodos como keyPressed, keyReleased, y keyTyped que responderán a acciones del teclado
         pack(); //Este método redimensiona el JFrame para que tenga el tamaño preferido de su diseño y componentes. 
         setVisible(true); //Hace visible el JFrame. Esta línea de código muestra la interfaz gráfica del juego Tetris al usuario.
-         //Este método no está visible en el código proporcionado, pero se menciona al final. Supongo que es un método personalizado que se encarga de generar un nuevo bloque en el juego Tetris. La generación de bloques es fundamental para el progreso y la jugabilidad del juego.
-        
+        setLocationRelativeTo(null); //Aparece en medio de la pantalla
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE); //El programa finaliza si se cierra
     }//end constructor Mine()
  
     public void setSpeed(int s){

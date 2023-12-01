@@ -15,7 +15,7 @@ public class LoginVista extends javax.swing.JFrame {
          
         initComponents();
         this.setVisible(true);
-        PlaceHolder holder = new PlaceHolder(this.txtUsuario, "Ingresa tu usuario");
+        new PlaceHolder(this.txtUsuario, "Ingresa tu usuario");
         btnIngresar.addActionListener(controlador);
         btnRegistro.addActionListener(controlador); 
         
