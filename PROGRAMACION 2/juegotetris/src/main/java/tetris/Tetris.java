@@ -119,6 +119,7 @@ public class Tetris extends JFrame implements KeyListener {
         prof[2][3][4].x = -1;
         prof[3][0][4].x = 0;
         prof[3][1][4].x = 0;
+        prof[3][1][4].x = 0;
         prof[3][2][4].x = 1;
         prof[3][3][4].x = 0;
         prof[0][0][5].x = 0;
@@ -341,7 +342,7 @@ public class Tetris extends JFrame implements KeyListener {
             //// Si no hay espacio para el nuevo bloque, muestra un mensaje de Game Over y cierra el juego
             timer.stop();
             JOptionPane.showMessageDialog(temporaryLostComponent, "Game Over! You cleared "+rowsclrd+" rows, well done!");
-            //System.exit(0);
+            
         }
     }
  
