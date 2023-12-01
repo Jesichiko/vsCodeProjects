@@ -2,7 +2,8 @@ package helper;
 
 import javax.swing.JOptionPane;
 
-public class AvisosVentanas {
+//CLASE AYUDANTE PARA VENTANAS, NO INSTANCIABLE
+public abstract class AvisosVentanas { 
     
     public static void error(String message){ //Mensajes de error que se envian al usuario
         JOptionPane.showMessageDialog(null, message, "Error :/", JOptionPane.ERROR_MESSAGE);
