@@ -98,6 +98,7 @@ public class VistasControlador implements ActionListener{
             
                 menu.dispose();
                 Tetris tetris = new Tetris();
+                tetris.blockgen();
             
             }else{ //Boton de puntuaciones
                     //Abrir las puntuaciones
