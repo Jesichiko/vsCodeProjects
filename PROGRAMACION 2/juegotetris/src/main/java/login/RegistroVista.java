@@ -15,7 +15,7 @@ public class RegistroVista extends javax.swing.JFrame {
         initComponents();
         this.setVisible(false);
         PlaceHolder holder = new PlaceHolder(this.txtUsuario, "Ej: ElPro1234");
-        holder = new PlaceHolder(this.txtContraseña, "Ej: OmocatLLSPP");
+        holder = new PlaceHolder(this.txtPassword, "Ej: OmocatLLSPP");
         btnRegistrarse.addActionListener(controlador);
         
     }
@@ -30,7 +30,7 @@ public class RegistroVista extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        txtContraseña = new javax.swing.JTextField();
+        txtPassword = new javax.swing.JTextField();
         txtUsuario = new javax.swing.JTextField();
         btnRegistrarse = new javax.swing.JButton();
         lbIconoUsuario = new javax.swing.JLabel();
@@ -43,16 +43,11 @@ public class RegistroVista extends javax.swing.JFrame {
 
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        txtContraseña.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.add(txtContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, 290, 40));
-
-        txtUsuario.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, 290, 40));
         jPanel1.add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 290, 40));
 
         btnRegistrarse.setBackground(new java.awt.Color(208, 55, 55));
-        btnRegistrarse.setForeground(new java.awt.Color(0, 0, 0));
-        btnRegistrarse.setText("¡ Jugar Ya !");
+        btnRegistrarse.setText("� Jugar Ya !");
         btnRegistrarse.setBorderPainted(false);
         btnRegistrarse.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel1.add(btnRegistrarse, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 293, 290, 40));
@@ -78,7 +73,7 @@ public class RegistroVista extends javax.swing.JFrame {
     private javax.swing.JLabel lbIconoUsuario;
     private javax.swing.JLabel lbParteAltaRegistro;
     private javax.swing.JLabel lbParteBajaRegistro;
-    public javax.swing.JTextField txtContraseña;
+    public javax.swing.JTextField txtPassword;
     public javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }

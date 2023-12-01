@@ -5,14 +5,10 @@ import excepciones.CampoVacioException;
 public class UsuarioModelo {
     
     private String user, password;
-    private int index;
-    private float puntaje;
     
     public UsuarioModelo(){
         user = "N/A";
         password = "N/A";
-        puntaje = 0.F;
-        index = 0;
     }
 
     public String getUser() {
@@ -36,17 +32,4 @@ public class UsuarioModelo {
         }
         this.password = password;
     }
-
-    public void setPuntaje(int puntaje) { 
-        this.puntaje = puntaje;
-    }
-
-    public int getIndex() {
-        return index;
-    }
-
-    public void setIndex() {
-        this.index = getIndex();
-    }
-    
 }

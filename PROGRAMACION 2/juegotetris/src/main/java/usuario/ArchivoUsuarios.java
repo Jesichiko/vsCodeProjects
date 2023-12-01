@@ -3,8 +3,7 @@ package usuario;
 import java.io.*;
 import java.util.ArrayList;
 
-public class ArchivoUsuarios {
-    
+public class ArchivoUsuarios {   
     String ruta;
     
     public ArchivoUsuarios(String ruta){
@@ -71,17 +70,16 @@ public class ArchivoUsuarios {
         return -1;
     }
     
-    public boolean acceder (int ID,String password)throws IOException{
-        if(ID==-1){
-            return false;
-        }
-        ArrayList<String> lineas = leerArchivo(); //Se lee el archivo
-        String c = lineas.get(ID);
-        String[] cadena = c.split("_");
-        if(cadena[2].equals(password)){
-            return true;
-        }
+    public boolean acceder(int ID, char[] password) throws IOException {
+    if (ID == -1) 
         return false;
+
+    ArrayList<String> lineas = leerArchivo(); // Se lee el archivo
+    String c = lineas.get(ID);
+    String[] cadena = c.split("_"); //Dividimos la informacion del usuario
+    String passwordString = new String(password); // Convierte el char[] a String
+    
+    return cadena[2].equals(passwordString); //El metodo retorna true o false
+    
     }
-     
 }

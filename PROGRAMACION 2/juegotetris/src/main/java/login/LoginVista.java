@@ -32,7 +32,7 @@ public class LoginVista extends javax.swing.JFrame {
 
         jpInterfaz = new javax.swing.JPanel();
         txtUsuario = new javax.swing.JTextField();
-        txtContraseña = new javax.swing.JPasswordField();
+        txtPassword = new javax.swing.JPasswordField();
         btnIngresar = new javax.swing.JButton();
         btnRegistro = new javax.swing.JButton();
         lbParteAltaLogin = new javax.swing.JLabel();
@@ -46,7 +46,7 @@ public class LoginVista extends javax.swing.JFrame {
         jpInterfaz.setForeground(new java.awt.Color(204, 204, 204));
         jpInterfaz.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         jpInterfaz.add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 410, 40));
-        jpInterfaz.add(txtContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 292, 410, 40));
+        jpInterfaz.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 292, 410, 40));
 
         btnIngresar.setBackground(new java.awt.Color(51, 204, 0));
         btnIngresar.setText("Ingresar");
@@ -80,7 +80,7 @@ public class LoginVista extends javax.swing.JFrame {
     private javax.swing.JLabel lbFondoLogin;
     private javax.swing.JLabel lbParteAltaLogin;
     private javax.swing.JLabel lbParteBajaLogin;
-    public javax.swing.JPasswordField txtContraseña;
+    public javax.swing.JPasswordField txtPassword;
     public javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }
