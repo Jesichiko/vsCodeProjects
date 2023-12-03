@@ -81,7 +81,7 @@ public class ArchivoUsuarios {
         
         for(int i = 0; i < archivo.size(); i++){
             String[] linea = archivo.get(i).split("_");
-            puntuacionesMax.add(linea[]);
+            puntuacionesMax.add(linea[1] + "_" + linea[3]);
             
         }
         
