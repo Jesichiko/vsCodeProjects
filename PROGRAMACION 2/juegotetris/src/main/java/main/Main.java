@@ -1,8 +1,8 @@
-package proyecto;
+package main;
 
 import controlador.VistasControlador;
-import login.LoginVista;
 import usuario.UsuarioModelo;
+import vistas.LoginVista;
 
 public class Main {
     public static void main(String[] args) {

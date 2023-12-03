@@ -1,4 +1,4 @@
-package placeholder;
+package helpers;
 
 import java.awt.Color;
 import java.awt.event.FocusAdapter;

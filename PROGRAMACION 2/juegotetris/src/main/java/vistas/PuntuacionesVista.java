@@ -1,12 +1,17 @@
-package puntuaciones;
+package vistas;
 
 public class PuntuacionesVista extends javax.swing.JFrame {
 
     /**
      * Creates new form PuntuacionesVista
      */
-    public PuntuacionesVista() {
+    public PuntuacionesVista(String[] puntuaciones) {
         initComponents();
+        lbPtn1.setText(puntuaciones[0]); //Se le dan los valores de puntuaciones desde el archivo
+        lbPtn2.setText(puntuaciones[1]);
+        lbPtn3.setText(puntuaciones[2]);
+        lbPtn4.setText(puntuaciones[3]);
+
     }
 
     /**

@@ -1,12 +1,11 @@
 package controlador;
 
-import tetris.*;
 import excepciones.*;
-import helper.AvisosVentanas;
-import login.*;
-import menu.*;
-import puntuaciones.PuntuacionesVista;
+import helpers.AvisosVentanas;
+import juego.*;
 import usuario.*;
+import vistas.*;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -102,7 +101,7 @@ public class VistasControlador implements ActionListener{
             
             }else{  //Si se apreto el boton de puntuaciones
                  
-                PuntuacionesVista puntuaciones = new PuntuacionesVista();
+                PuntuacionesVista puntuaciones = new PuntuacionesVista(usuarios.puntuaciones()); //Creamos la interfaz de puntuaciones leyendo desde el archivo
                 puntuaciones.setVisible(true);
                     
             }

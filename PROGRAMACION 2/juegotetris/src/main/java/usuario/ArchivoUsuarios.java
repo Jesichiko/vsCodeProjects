@@ -3,7 +3,6 @@ package usuario;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ArchivoUsuarios {
@@ -66,8 +65,25 @@ public class ArchivoUsuarios {
         return cadena.length > 2 && cadena[2].equals(new String(password));
     }
 
-    public ArrayList puntuaciones() throws IOException{
-        //POR HACER
+    public String[] puntuaciones() throws IOException{
+
+        List<String> archivo =  leerArchivo(); //Se lee el archivo
+        List<String> puntuacionesMax;
+        
+        if(archivo.isEmpty()){
+            String[] puntuacionesDefault = {"S/N_0", "S/N_0", "S/N_0" + "S/N_0"};
+            return puntuacionesDefault;
+        }
+        
+        for(int i = 0; i < archivo.size(); i++){
+            String[] linea = archivo.get(i).split("_");
+        }
+        
+        for(int i = 0; i < archivo.size(); i++){
+            String[] linea = archivo.get(i).split("_");
+            puntuacionesMax.add(linea[]);
+            
+        }
         
     }
 

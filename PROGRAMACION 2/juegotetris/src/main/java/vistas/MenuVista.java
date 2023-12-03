@@ -1,4 +1,4 @@
-package menu;
+package vistas;
 
 import controlador.VistasControlador;
 

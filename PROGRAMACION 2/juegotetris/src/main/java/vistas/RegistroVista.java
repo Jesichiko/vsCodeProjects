@@ -1,7 +1,7 @@
-package login;
+package vistas;
 
 import controlador.VistasControlador;
-import placeholder.PlaceHolder;
+import helpers.PlaceHolder;
 
 public class RegistroVista extends javax.swing.JFrame {
 

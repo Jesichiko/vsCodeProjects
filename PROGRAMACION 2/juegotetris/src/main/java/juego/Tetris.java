@@ -1,10 +1,10 @@
-package tetris;
+package juego;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-import puntuaciones.PuntuacionesVista;
+import vistas.PuntuacionesVista;
 
  
 public class Tetris extends JFrame implements KeyListener {
