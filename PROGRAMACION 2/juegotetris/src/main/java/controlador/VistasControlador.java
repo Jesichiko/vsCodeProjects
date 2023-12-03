@@ -5,6 +5,7 @@ import excepciones.*;
 import helper.AvisosVentanas;
 import login.*;
 import menu.*;
+import puntuaciones.PuntuacionesVista;
 import usuario.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,10 +14,9 @@ import java.io.IOException;
 
 public class VistasControlador implements ActionListener{
     
-    
     private LoginVista login;
     private RegistroVista registro = new RegistroVista(this);
-    private MenuVista menu = new MenuVista(this);;
+    private MenuVista menu = new MenuVista(this);
     private UsuarioModelo modelo;
     private ArchivoUsuarios usuarios;
     private int ID;
@@ -67,7 +67,7 @@ public class VistasControlador implements ActionListener{
                     menu.setVisible(true);
                     
                 }else //Si no es la contraseña del usuario
-                    AvisosVentanas.error("Error, " + login.txtUsuario.getText() + ", tu contraseña es distinta");
+                    throw new PasswordIncorrectoException();
 
             }else if(e.getSource() == login.btnRegistro){
                     
@@ -86,8 +86,8 @@ public class VistasControlador implements ActionListener{
                 modelo.setPassword(registro.txtPassword.getText());
                 
                 //Se valida si el usuario escrito ya existe o no
-                if( usuarios.buscarUsuario( modelo.getUser() ) != -1){
-                    AvisosVentanas.error(" Este usuario ya existe, intenta ingresar");
+                if( usuarios.buscarUsuario( modelo.getUser() ) != -1){ //Si el usuario ingresado ya existe en el archivo
+                    throw new UsuarioExistenteException();
                 }else{
                     usuarios.escribirEnArchivo(modelo.getUser(), modelo.getPassword());
                     AvisosVentanas.registroExitoso();
@@ -104,13 +104,13 @@ public class VistasControlador implements ActionListener{
                 Tetris tetris = new Tetris();
                 tetris.blockgen();
             
-            }else{ //Boton de puntuaciones
+            }else{  //Si se apreto el boton de puntuaciones
+                 
                 
-                    //Abrir las puntuaciones
                     
             }
 
-        }catch(CampoVacioException | UsuarioNoExisteException | IOException ex){ //Si se encuentra una Excepcion se encuentra y se cacha
+        }catch(CampoVacioException | UsuarioNoExisteException | UsuarioExistenteException |PasswordIncorrectoException | IOException ex){ //Si se encuentra una Excepcion se encuentra y se cacha
             
             AvisosVentanas.error(ex.getMessage()); //Se manda una ventana a la pantalla con informacion de la excepcion
             

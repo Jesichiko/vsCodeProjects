@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import puntuaciones.PuntuacionesVista;
+
  
 public class Tetris extends JFrame implements KeyListener {
     int pos[] = {0,1};
@@ -286,12 +288,6 @@ public class Tetris extends JFrame implements KeyListener {
                 perim[x][y]= 2;
             }
         }
-        for(int y = 0;y<n+4;y++){
-            for (int x = 0;x<m+4;x++){
-                System.out.print(perim[x][y]);
-            }
-            System.out.println("Aqui si jala");
-        }
         b = new JButton [m][n];  //Se crea un arreglo bidimensional de botones llamado b con dimensiones m por n. Cada elemento de este arreglo será un botón en la interfaz gráfica.
         setLayout(new GridLayout(n,m)); //Se establece el diseño de la interfaz gráfica como una cuadrícula (GridLayout) con n filas y m columnas. Aquí, las dimensiones de la cuadrícula están definidas por las variables n y m.
         for (int y = 0;y<n;y++){  //Se utiliza un bucle anidado para recorrer todas las filas (y) y columnas (x) del arreglo de botones. Para cada posición (x, y), se realiza lo siguiente:
@@ -305,7 +301,7 @@ public class Tetris extends JFrame implements KeyListener {
         }
         setFocusable(true); //Esta línea establece la propiedad de enfoque del JFrame como verdadera. Esto es importante cuando se trabaja con eventos del teclado, ya que indica que el JFrame puede recibir el enfoque y responder a eventos de teclado
         addKeyListener(this); //Esto significa que el JFrame está escuchando eventos del teclado y tiene métodos como keyPressed, keyReleased, y keyTyped que responderán a acciones del teclado
-        pack(); //Este método redimensiona el JFrame para que tenga el tamaño preferido de su diseño y componentes. 
+        pack(); //Este método redimensiona el JFrame para que tenga el tamaño preferido de su diseño y componentes
         setVisible(true); //Hace visible el JFrame. Esta línea de código muestra la interfaz gráfica del juego Tetris al usuario.
         setLocationRelativeTo(null); //Aparece en medio de la pantalla
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE); //El programa finaliza si se cierra
@@ -321,13 +317,11 @@ public class Tetris extends JFrame implements KeyListener {
     }
  
     public void blockgen(){
-        Component temporaryLostComponent = null;
         pos[0] = 0;
         pos[1] = 1;
         rand = (int) (Math.floor(Math.random()*7+1));
         centralx = 4;
         centraly = 0;
-        System.out.print(rand); // Verifica si las posiciones donde se generará el nuevo bloque están disponibles
         if ((b[4+prof[pos[0]][0][rand-1].x][prof[pos[0]][0][rand-1].y].getBackground() == Color.DARK_GRAY) &&
         (b[4+prof[pos[0]][1][rand-1].x][prof[pos[0]][1][rand-1].y].getBackground() == Color.DARK_GRAY) &&
         (b[4+prof[pos[0]][2][rand-1].x][prof[pos[0]][2][rand-1].y].getBackground() == Color.DARK_GRAY) &&
@@ -339,10 +333,13 @@ public class Tetris extends JFrame implements KeyListener {
             b[4+prof[pos[0]][3][rand-1].x][prof[pos[0]][3][rand-1].y].setBackground(rnd[rand-1]);
             timer.start(); //// Iniciamos el temporizador, que practicamente es iniciar el juego
         } else {
-            //// Si no hay espacio para el nuevo bloque, muestra un mensaje de Game Over y cierra el juego
-            timer.stop();
-            JOptionPane.showMessageDialog(temporaryLostComponent, "Game Over! You cleared "+rowsclrd+" rows, well done!");
             
+            timer.stop();
+            
+            PuntuacionesVista puntuaciones = new PuntuacionesVista();
+
+
+
         }
     }
  
@@ -353,8 +350,6 @@ public class Tetris extends JFrame implements KeyListener {
         } else if (pos[0] == 3){
             pos[0] = 0;
             pos[1] = 3;
-        } else {
-            System.out.println("error");
         }
         // Verifica si es posible realizar la rotación sin colisiones con los bordes y otros bloques
         if ((perim[2+centralx+prof[pos[0]][0][rand-1].x][centraly+prof[pos[0]][0][rand-1].y+2] != 4) && (perim[2+centralx+prof[pos[0]][0][rand-1].x][centraly+prof[pos[0]][0][rand-1].y+2] != 1) && (perim[2+centralx+prof[pos[0]][0][rand-1].x][centraly+prof[pos[0]][0][rand-1].y+2] != 2) && (perim[2+centralx+prof[pos[0]][0][rand-1].x][centraly+prof[pos[0]][0][rand-1].y+2] != 3)

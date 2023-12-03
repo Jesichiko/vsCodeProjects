@@ -80,6 +80,8 @@ public class ArchivoUsuarios {
     String passwordString = new String(password); // Convierte el char[] a String
     
     return cadena[2].equals(passwordString); //El metodo retorna true o false
-    
     }
+
+    
+
 }
