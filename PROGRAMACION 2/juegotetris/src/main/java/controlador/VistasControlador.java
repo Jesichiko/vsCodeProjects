@@ -49,25 +49,22 @@ public class VistasControlador implements ActionListener{
         try{ //Generalizamos el try-catch
             
             if(e.getSource() == login.btnIngresar ){ //Si se clickea el boton de login
-                if(login.txtUsuario.getText().equals("Ingresa tu usuario")){ //Si no se agrega informacion al campo se envia un mensaje de error
-                    throw new CampoVacioException("Ingresa informacion al campo de usuario");
-                }
+                
+                if( login.txtUsuario.getText().equals("Ingresa tu usuario") || login.txtPassword.getPassword().length == 0 ) //Si no se agrega informacion a los campos se envia un mensaje de error
+                    throw new CampoVacioException("Ingresa informacion a los campos de usuario");
                 
                 ID = usuarios.buscarUsuario(login.txtUsuario.getText()); //Se busca a el usuario
-                if(ID == -1){ //Si no se encontro el usuario se retorna un -1
-                    throw new UsuarioNoExisteException(); 
-                }
-                
-                if( usuarios.acceder(ID, login.txtPassword.getPassword() ) ){//Si se ingresa correctamente se despliega el menu
-                    
-                    AvisosVentanas.IngresoExitoso(); //Se le notifica al usuario su registro exitoso
-                    login.dispose(); //Se cierra la venta del login
-                
-                    //Se hace visibile el menu
-                    menu.setVisible(true);
-                    
-                }else //Si no es la contraseña del usuario
+                if(ID == -1) //Si el usuario no se encontro
+                    throw new UsuarioNoExisteException();
+
+                if ( !usuarios.acceder(ID, login.txtPassword.getPassword() ) )  // Si no se ingresa correctamente la contraseña se lanza un error
                     throw new PasswordIncorrectoException();
+                
+                // Si se ingresa correctamente la contraseña se despliega el menu
+                AvisosVentanas.IngresoExitoso(); // Se le notifica al usuario su ingreso exitoso
+                login.dispose(); // Se cierra la ventana del login
+            
+                menu.setVisible(true); // Se hace visible el menú
 
             }else if(e.getSource() == login.btnRegistro){
                     
@@ -77,26 +74,25 @@ public class VistasControlador implements ActionListener{
             }else if(e.getSource() == registro.btnRegistrarse){
 
                 //Si no se escribio nada en los campos de registro
-                if(registro.txtUsuario.getText().equals("Ej: ElPro1234")|| registro.txtPassword.getText().equals("Ej: OmocatLLSPP") ){
+                if( registro.txtUsuario.getText().equals("Ej: ElPro1234") || registro.txtPassword.getText().equals("Ej: OmocatLLSPP") )
                     throw new CampoVacioException();
-                }
                 
                 //Se pasan los valores al modelo
                 modelo.setUser(registro.txtUsuario.getText());
                 modelo.setPassword(registro.txtPassword.getText());
                 
                 //Se valida si el usuario escrito ya existe o no
-                if( usuarios.buscarUsuario( modelo.getUser() ) != -1){ //Si el usuario ingresado ya existe en el archivo
+                if( usuarios.buscarUsuario( modelo.getUser() ) != -1) //Si el usuario ingresado ya existe en el archivo
                     throw new UsuarioExistenteException();
-                }else{
-                    usuarios.escribirEnArchivo(modelo.getUser(), modelo.getPassword());
-                    AvisosVentanas.registroExitoso();
-                    
-                    //Se pone automaticamente la informacion escrita por el usuario en los campos de Iniciar Sesion
-                    login.txtUsuario.setText(modelo.getUser());
-                    login.txtPassword.setText(modelo.getPassword());    
-                    registro.dispose(); //Se cierra la vista del registro
-                }
+                
+                //Se escribe en el archivo y se le notifica al usuario de su registro exitoso
+                usuarios.escribirEnArchivo(modelo.getUser(), modelo.getPassword());
+                AvisosVentanas.registroExitoso();
+                
+                //Se pone automaticamente la informacion escrita por el usuario en los campos de Iniciar Sesion
+                login.txtUsuario.setText(modelo.getUser());
+                login.txtPassword.setText(modelo.getPassword());    
+                registro.dispose(); //Se cierra la vista del registro
 
             }else if (e.getSource() == menu.btnJugar){
         
@@ -106,7 +102,8 @@ public class VistasControlador implements ActionListener{
             
             }else{  //Si se apreto el boton de puntuaciones
                  
-                
+                PuntuacionesVista puntuaciones = new PuntuacionesVista();
+                puntuaciones.setVisible(true);
                     
             }
 
