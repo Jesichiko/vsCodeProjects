@@ -1,17 +1,33 @@
 package vistas;
 
 public class PuntuacionesVista extends javax.swing.JFrame {
-
     /**
      * Creates new form PuntuacionesVista
+     * @param String[]
      */
     public PuntuacionesVista(String[] puntuaciones) {
         initComponents();
-        lbPtn1.setText(puntuaciones[0]); //Se le dan los valores de puntuaciones desde el archivo
-        lbPtn2.setText(puntuaciones[1]);
-        lbPtn3.setText(puntuaciones[2]);
-        lbPtn4.setText(puntuaciones[3]);
-
+        for(int i = 0; i < 4; i++){
+            String[] user = puntuaciones[i].split("_"); //Campos: Nombre_Puntuacion
+            switch (i) {
+                case 0:
+                    lbPlayer1.setText( user[0] );
+                    lbPtn1.setText( user[1] );
+                    break;
+                case 1:
+                    lbPlayer2.setText( user[0] );
+                    lbPtn2.setText( user[1] );
+                    break;
+                case 2:
+                    lbPlayer3.setText( user[0] );
+                    lbPtn3.setText( user[1] );
+                    break;
+                case 3:
+                    lbPlayer4.setText( user[0] );
+                    lbPtn4.setText( user[1] );
+                    break;
+            }
+        }
     }
 
     /**

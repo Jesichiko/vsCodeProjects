@@ -3,7 +3,6 @@ package juego;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-
 import vistas.PuntuacionesVista;
 
  
@@ -335,8 +334,6 @@ public class Tetris extends JFrame implements KeyListener {
         } else {
             
             timer.stop();
-            
-            PuntuacionesVista puntuaciones = new PuntuacionesVista();
 
 
 

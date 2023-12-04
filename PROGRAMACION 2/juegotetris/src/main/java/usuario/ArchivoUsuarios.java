@@ -79,11 +79,6 @@ public class ArchivoUsuarios {
         List<String> puntuaciones = new ArrayList<>();
         String[] puntuacionesMaximas = new String[4];
         
-        if(archivo.isEmpty()){
-            String[] puntuacionesDefault = {"S/N_0", "S/N_0", "S/N_0", "S/N_0"};
-            return puntuacionesDefault;
-        }
-        
         for(String linea : archivo){ //Se recorre el archivo leido y se utilizara solo el nombre y puntuacion de todos los usuarios
             String[] datos = linea.split("_");
             puntuacionesArchivos.add(datos[1] + "_" + datos[3]); //En el campo 1 se encuentra el nombre del usuario y en el campo 3 su puntuacion
@@ -94,19 +89,25 @@ public class ArchivoUsuarios {
             puntuaciones.add(datos[1]); 
         }
 
-        int puntuacionMaxima = Integer.parseInt(puntuaciones.get(0)); //Se supone que el primer elemento es el mas grande
-        int puntuacionMaximaIndex = 0; //Index del elemento mas grande
-        for(int i = 0; i < 4; i++){
-           for(int x = 0; x < puntuaciones.size(); x++){ //Se recorre la lista para encontrar el elemento mas grande 4 veces
-                if( Integer.parseInt(puntuaciones.get(x)) > puntuacionMaxima ){
+        for (int i = 0; i < 4; i++) {
+            if (puntuaciones.isEmpty()){ //Si tras eliminar a los jugadores con mayor puntaje (4) la lista queda vacia se rompe el ciclo
+                for(int i = puntuacionesMaximas.length; i < 4; i++){
+                    
+                }
+                break;
+            }
+            int puntuacionMaxima = Integer.parseInt(puntuaciones.get(0)); //Se supone que el primer elemento es el mas grande
+            int puntuacionMaximaIndex = 0; //Index del elemento mas grande
+            for (int x = 0; x < puntuaciones.size(); x++) { //Se recorre la lista para encontrar el elemento mas grande 4 veces
+                if ( Integer.parseInt( puntuaciones.get(x) ) > puntuacionMaxima ) {
                     puntuacionMaxima = Integer.parseInt(puntuaciones.get(x));
                     puntuacionMaximaIndex = x;
                 }
-           }
-           puntuaciones.remove(puntuacionMaximaIndex); //Despues de haber encontrado el elemento mas grande se remueve de la lista
-           puntuacionesMaximas[i] = puntuacionesArchivos.get(puntuacionMaximaIndex); //Se agrega a un arreglo el elemento que fue mas grande con el nombre del usuario (esto con el index)
+            }
+            puntuaciones.remove(puntuacionMaximaIndex); //Despues de haber encontrado el elemento mas grande se remueve de la lista
+            puntuacionesMaximas[i] = puntuacionesArchivos.get(puntuacionMaximaIndex); //Se agrega a un arreglo el elemento que fue mas grande con el nombre del usuario (esto con el index)
         }
-
+        
         return puntuacionesMaximas;
     }
 }
