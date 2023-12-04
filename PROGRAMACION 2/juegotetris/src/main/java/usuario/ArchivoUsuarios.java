@@ -3,6 +3,7 @@ package usuario;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ArchivoUsuarios {
@@ -65,26 +66,47 @@ public class ArchivoUsuarios {
         return cadena.length > 2 && cadena[2].equals(new String(password));
     }
 
-    public String[] puntuaciones() throws IOException{
+    public void escribirPuntuaciones(String puntuacion){
+
+        
+
+    }
+
+    public String[] leerPuntuaciones() throws IOException{
 
         List<String> archivo =  leerArchivo(); //Se lee el archivo
-        List<String> puntuacionesMax;
+        List<String> puntuacionesArchivos = new ArrayList<>();
+        List<String> puntuaciones = new ArrayList<>();
+        String[] puntuacionesMaximas = new String[4];
         
         if(archivo.isEmpty()){
-            String[] puntuacionesDefault = {"S/N_0", "S/N_0", "S/N_0" + "S/N_0"};
+            String[] puntuacionesDefault = {"S/N_0", "S/N_0", "S/N_0", "S/N_0"};
             return puntuacionesDefault;
         }
         
-        for(int i = 0; i < archivo.size(); i++){
-            String[] linea = archivo.get(i).split("_");
+        for(String linea : archivo){ //Se recorre el archivo leido y se utilizara solo el nombre y puntuacion de todos los usuarios
+            String[] datos = linea.split("_");
+            puntuacionesArchivos.add(datos[1] + "_" + datos[3]); //En el campo 1 se encuentra el nombre del usuario y en el campo 3 su puntuacion
         }
         
-        for(int i = 0; i < archivo.size(); i++){
-            String[] linea = archivo.get(i).split("_");
-            puntuacionesMax.add(linea[1] + "_" + linea[3]);
-            
+        for(int i = 0; i < puntuacionesArchivos.size(); i++){ //Se llena una lista con solo las puntuaciones
+            String[] datos = puntuacionesArchivos.get(i).split("_");
+            puntuaciones.add(datos[1]); 
         }
-        
-    }
 
+        int puntuacionMaxima = Integer.parseInt(puntuaciones.get(0)); //Se supone que el primer elemento es el mas grande
+        int puntuacionMaximaIndex = 0; //Index del elemento mas grande
+        for(int i = 0; i < 4; i++){
+           for(int x = 0; x < puntuaciones.size(); x++){ //Se recorre la lista para encontrar el elemento mas grande 4 veces
+                if( Integer.parseInt(puntuaciones.get(x)) > puntuacionMaxima ){
+                    puntuacionMaxima = Integer.parseInt(puntuaciones.get(x));
+                    puntuacionMaximaIndex = x;
+                }
+           }
+           puntuaciones.remove(puntuacionMaximaIndex); //Despues de haber encontrado el elemento mas grande se remueve de la lista
+           puntuacionesMaximas[i] = puntuacionesArchivos.get(puntuacionMaximaIndex); //Se agrega a un arreglo el elemento que fue mas grande con el nombre del usuario (esto con el index)
+        }
+
+        return puntuacionesMaximas;
+    }
 }

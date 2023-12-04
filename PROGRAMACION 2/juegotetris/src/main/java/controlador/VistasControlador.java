@@ -101,7 +101,7 @@ public class VistasControlador implements ActionListener{
             
             }else{  //Si se apreto el boton de puntuaciones
                  
-                PuntuacionesVista puntuaciones = new PuntuacionesVista(usuarios.puntuaciones()); //Creamos la interfaz de puntuaciones leyendo desde el archivo
+                PuntuacionesVista puntuaciones = new PuntuacionesVista(usuarios.leerPuntuaciones()); //Creamos la interfaz de puntuaciones leyendo desde el archivo
                 puntuaciones.setVisible(true);
                     
             }
