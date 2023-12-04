@@ -15,7 +15,7 @@ public class PuntuacionesVista extends JFrame implements ActionListener {
         this.setLayout(new BorderLayout(30,5));
         this.setLocation(500,200);
         this.setSize(300, 300);
-        this.setLocationRelativeTo(null);
+        this.setkl
         pnTitle = new JPanel();
         pnTitle.setLayout(new FlowLayout());
         pnTitle.setBackground(Color.DARK_GRAY);

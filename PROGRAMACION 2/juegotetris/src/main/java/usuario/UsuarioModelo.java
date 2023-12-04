@@ -4,11 +4,21 @@ import excepciones.CampoVacioException;
 
 public class UsuarioModelo {
     
+    private static UsuarioModelo instance;
     private String user, password;
+    private int puntuacionU;
     
     public UsuarioModelo(){
         user = "N/A";
         password = "N/A";
+        puntuacionU=0;
+    }
+    
+    public static synchronized UsuarioModelo getInstance() {
+        if (instance == null) {
+            instance = new UsuarioModelo();
+        }
+        return instance;
     }
 
     public String getUser() {
@@ -32,4 +42,11 @@ public class UsuarioModelo {
         }
         this.password = password;
     }
-}
+    
+   public int getPuntuacionU() {
+        return puntuacionU;
+    }
+    public void setPuntuacionU(int puntuacionU) {
+        this.puntuacionU = puntuacionU;
+    }
+}  
