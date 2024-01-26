@@ -1,13 +1,17 @@
 package juego;
 
+import controlador.VistasControlador;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import javax.swing.*;
 import vistas.PuntuacionesVista;
-import usuario.UsuarioModelo;
+import usuario.*;
+import helpers.AvisosVentanas; 
 
  
 public class Tetris extends JFrame implements KeyListener {
+    PuntuacionesVista puntuaciones;
     int pos[] = {0,1};
     boolean bottom = false;
     int n = 20;
@@ -22,8 +26,13 @@ public class Tetris extends JFrame implements KeyListener {
     or[][][] prof = new or[4][4][7];
     Color rnd[] = {Color.red, Color.yellow, Color.cyan, Color.green, Color.white, Color.blue, Color.orange};
     int rowsclrd = 0;
+    int aceleracion = 2;
     Timer timer = new Timer(500, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                if(rowsclrd == aceleracion){
+                    timer.setDelay(timer.getDelay()- 75);
+                    aceleracion += 2;     
+                }
                 // Este código se ejecutará después del tiempo especificado
                 movedown();
             // Verificar si hay filas completas y eliminarlas
@@ -34,7 +43,7 @@ public class Tetris extends JFrame implements KeyListener {
                 }
             }
         });
-    public Tetris(){
+    public Tetris(VistasControlador controlador){
         for(int a = 0;a<4;a++){                 //El primer bucle (for (int a = 0; a < 4; a++)) itera sobre la dimensión a (representando las piezas).
             for(int d = 0;d<4;d++){             //El segundo bucle (for (int b = 0; b < 4; b++)) itera sobre la dimensión b (representando las filas de cada matriz de orientación).
                 for(int c = 0;c<7;c++){         //El tercer bucle (for (int c = 0; c < 7; c++)) itera sobre la dimensión c (representando las columnas de cada matriz de orientación).
@@ -288,12 +297,7 @@ public class Tetris extends JFrame implements KeyListener {
                 perim[x][y]= 2;
             }
         }
-        for(int y = 0;y<n+4;y++){
-            for (int x = 0;x<m+4;x++){
-                System.out.print(perim[x][y]);
-            }
-           // System.out.println("Aqui si jala");
-        }
+
         b = new JButton [m][n];  //Se crea un arreglo bidimensional de botones llamado b con dimensiones m por n. Cada elemento de este arreglo será un botón en la interfaz gráfica.
         setLayout(new GridLayout(n,m)); //Se establece el diseño de la interfaz gráfica como una cuadrícula (GridLayout) con n filas y m columnas. Aquí, las dimensiones de la cuadrícula están definidas por las variables n y m.
         for (int y = 0;y<n;y++){  //Se utiliza un bucle anidado para recorrer todas las filas (y) y columnas (x) del arreglo de botones. Para cada posición (x, y), se realiza lo siguiente:
@@ -305,13 +309,17 @@ public class Tetris extends JFrame implements KeyListener {
                 b[x][y].setEnabled(false); //Se habilita el botón.
             }
         }
+        
         setFocusable(true); //Esta línea establece la propiedad de enfoque del JFrame como verdadera. Esto es importante cuando se trabaja con eventos del teclado, ya que indica que el JFrame puede recibir el enfoque y responder a eventos de teclado
         addKeyListener(this); //Esto significa que el JFrame está escuchando eventos del teclado y tiene métodos como keyPressed, keyReleased, y keyTyped que responderán a acciones del teclado
         pack(); //Este método redimensiona el JFrame para que tenga el tamaño preferido de su diseño y componentes. 
         setVisible(true); //Hace visible el JFrame. Esta línea de código muestra la interfaz gráfica del juego Tetris al usuario.
         setLocationRelativeTo(null); //Aparece en medio de la pantalla
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE); //El programa finaliza si se cierra
-    }//end constructor Mine()
+        this.setResizable(false);
+       
+        puntuaciones = new PuntuacionesVista(controlador);
+    }//Fin del constructor
  
     public void setSpeed(int s){
         timer.setDelay(s*1000);
@@ -329,7 +337,6 @@ public class Tetris extends JFrame implements KeyListener {
         rand = (int) (Math.floor(Math.random()*7+1));
         centralx = 4;
         centraly = 0;
-        System.out.print(rand); // Verifica si las posiciones donde se generará el nuevo bloque están disponibles
         if ((b[4+prof[pos[0]][0][rand-1].x][prof[pos[0]][0][rand-1].y].getBackground() == Color.DARK_GRAY) &&
         (b[4+prof[pos[0]][1][rand-1].x][prof[pos[0]][1][rand-1].y].getBackground() == Color.DARK_GRAY) &&
         (b[4+prof[pos[0]][2][rand-1].x][prof[pos[0]][2][rand-1].y].getBackground() == Color.DARK_GRAY) &&
@@ -341,51 +348,47 @@ public class Tetris extends JFrame implements KeyListener {
             b[4+prof[pos[0]][3][rand-1].x][prof[pos[0]][3][rand-1].y].setBackground(rnd[rand-1]);
             timer.start(); //// Iniciamos el temporizador, que practicamente es iniciar el juego
         } else {
-                PuntuacionesVista puntuacionesGUI = new PuntuacionesVista();
-              //simon 
-                String user = null;
-                //String puntuacion = ""+ puntuacionU;
-                timer.stop();
+                
+                timer.stop(); //Se para el juego
                 UsuarioModelo.getInstance().setPuntuacionU(rowsclrd);
-                //empezamos a cambiar de string a int
-                int valorlbPunt1 = Integer.parseInt(puntuacionesGUI.obtenerTextoJLabel1().substring("".length()));
-                int valorlbPunt2 = Integer.parseInt(puntuacionesGUI.obtenerTextoJLabel2().substring("".length()));
-                int valorlbPunt3 = Integer.parseInt(puntuacionesGUI.obtenerTextoJLabel3().substring("".length()));
-                int valorlbPunt4 = Integer.parseInt(puntuacionesGUI.obtenerTextoJLabel4().substring("".length()));
                 
-                int puntuacionU = rowsclrd; 
-
+                int puntaje = rowsclrd; 
+                ArchivoUsuarios usuario = new ArchivoUsuarios();            
                 
-                //temrinamos de cambiar string a int
-                //empieza a sobreescribir puntuaciones y nombres
-                if(puntuacionU >= valorlbPunt1 ){
-                    puntuacionesGUI.actualizarPuntuacion1(puntuacionU);
-                    puntuacionesGUI.actualizarNombre1(user);
-                    JOptionPane.showMessageDialog(temporaryLostComponent, "has limpiado " + rowsclrd + " lineas,y alcanzado el 1ER LUGAR, buen trabajo!!!");
-   
-                }
-                else if(puntuacionU >= valorlbPunt2){
-                    puntuacionesGUI.actualizarPuntuacion2(puntuacionU);
-                     puntuacionesGUI.actualizarNombre2(user);
-                    JOptionPane.showMessageDialog(temporaryLostComponent, "has limpiado " + rowsclrd + "lineas, y alcanzado el 2do lugar, buen trabajo!!!");
-                }
-                else if(puntuacionU >= valorlbPunt3){
-                    puntuacionesGUI.actualizarPuntuacion3(puntuacionU);
-                     puntuacionesGUI.actualizarNombre3(user);
-                    JOptionPane.showMessageDialog(temporaryLostComponent, "has limpiado " + rowsclrd + " lineas, y alcanzado el 3er lugar, buen trabajo!!!");
-                }
-                else if(puntuacionU >= valorlbPunt4 ){
-                    puntuacionesGUI.actualizarPuntuacion4(puntuacionU);
-                     puntuacionesGUI.actualizarNombre4(user);
-                    JOptionPane.showMessageDialog(temporaryLostComponent, "has limpiado " + rowsclrd + " lineas, y alcanzado el 4to lugar , buen trabajo!!!");
-                }
-                else{
-                JOptionPane.showMessageDialog(temporaryLostComponent, "has limpiado " + rowsclrd + " lineas, buen trabajo!!!");
-                }
-                
-                //acaba de sebreescribirse las puntuaciones y nombres
-                //se abre la ventana de las puntuaciones
-                PuntuacionesVista.mostrarInterfaz();
+                try {
+                    
+                    //Se escribe en el archivo   
+                    usuario.escribirPuntuacion(puntaje);
+                    String[] plPtn = usuario.leerPuntuaciones(); //Se leen todas las puntuaciones
+                    JOptionPane.showMessageDialog(temporaryLostComponent, "Has limpiado " + rowsclrd + " lineas, buen trabajo!!");
+                    for(int i = 0; i < 4; i++){
+                        String[] datos = plPtn[i].split("_");
+                        switch(i){
+                            case 0:
+                                puntuaciones.lbPlayer1.setText(datos[0]);
+                                puntuaciones.lbPunt1.setText(datos[1]);
+                                break;
+                            case 1:
+                                puntuaciones.lbPlayer2.setText(datos[0]);
+                                puntuaciones.lbPunt2.setText(datos[1]);
+                                break;
+                            case 2:
+                                puntuaciones.lbPlayer3.setText(datos[0]);
+                                puntuaciones.lbPunt3.setText(datos[1]);
+                                break;
+                            case 3:
+                                puntuaciones.lbPlayer4.setText(datos[0]);
+                                puntuaciones.lbPunt4.setText(datos[1]);
+                                break;
+                        }
+                    } 
+                    
+                } catch (IOException ex) {
+                    AvisosVentanas.error("No se pudo encontrar el archivo para puntuaciones :c");
+                } 
+                                 
+                this.dispose();
+                puntuaciones.setVisible(true);
             }
     }
  
@@ -396,9 +399,7 @@ public class Tetris extends JFrame implements KeyListener {
         } else if (pos[0] == 3){
             pos[0] = 0;
             pos[1] = 3;
-        } else {
-            System.out.println("error");
-        }
+        } 
         // Verifica si es posible realizar la rotación sin colisiones con los bordes y otros bloques
         if ((perim[2+centralx+prof[pos[0]][0][rand-1].x][centraly+prof[pos[0]][0][rand-1].y+2] != 4) && (perim[2+centralx+prof[pos[0]][0][rand-1].x][centraly+prof[pos[0]][0][rand-1].y+2] != 1) && (perim[2+centralx+prof[pos[0]][0][rand-1].x][centraly+prof[pos[0]][0][rand-1].y+2] != 2) && (perim[2+centralx+prof[pos[0]][0][rand-1].x][centraly+prof[pos[0]][0][rand-1].y+2] != 3)
         && (perim[centralx+2+prof[pos[0]][1][rand-1].x][centraly+prof[pos[0]][1][rand-1].y+2] != 4) && (perim[centralx+2+prof[pos[0]][1][rand-1].x][centraly+prof[pos[0]][1][rand-1].y+2] != 1) && (perim[centralx+2+prof[pos[0]][1][rand-1].x][centraly+prof[pos[0]][1][rand-1].y+2] != 2) && (perim[centralx+2+prof[pos[0]][1][rand-1].x][centraly+prof[pos[0]][1][rand-1].y+2] != 3)

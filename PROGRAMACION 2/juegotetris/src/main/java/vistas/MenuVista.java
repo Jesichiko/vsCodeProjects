@@ -45,14 +45,12 @@ public class MenuVista extends javax.swing.JFrame {
 
         btnJugar.setBackground(new java.awt.Color(0, 204, 255));
         btnJugar.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        btnJugar.setForeground(new java.awt.Color(0, 0, 0));
         btnJugar.setText("Iniciar Juego");
         btnJugar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel1.add(btnJugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 340, 300, 50));
 
         btnPuntuaciones.setBackground(new java.awt.Color(208, 55, 55));
         btnPuntuaciones.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        btnPuntuaciones.setForeground(new java.awt.Color(0, 0, 0));
         btnPuntuaciones.setText("Registro de Puntos");
         btnPuntuaciones.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel1.add(btnPuntuaciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 470, 300, 50));

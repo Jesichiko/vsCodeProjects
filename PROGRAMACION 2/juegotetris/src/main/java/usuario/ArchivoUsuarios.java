@@ -2,9 +2,11 @@ package usuario;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
-public class ArchivoUsuarios {   
-    String ruta;
+public class ArchivoUsuarios { 
+    private String ruta;
+    private int actualID;
     
     public ArchivoUsuarios(String ruta){
         this.ruta=ruta;
@@ -63,8 +65,9 @@ public class ArchivoUsuarios {
         for(i=0;i<lineas.size();i++){
             c = lineas.get(i);
             cadena = c.split("_");
-            if(cadena[1].equals(user)){
-                return i;
+            if(cadena[1].equals(user)){ //=)     
+                actualID = i;
+                return actualID;
             }
         }
         return -1;
@@ -82,4 +85,62 @@ public class ArchivoUsuarios {
     return cadena[2].equals(passwordString); //El metodo retorna true o false
     
     }
+    
+    public void escribirPuntuacion(int puntuacion) throws IOException{
+        ArrayList<String> lineas = leerArchivo(); //Se lee el archivo
+        
+        String[] cadena = lineas.get(actualID).split("_");
+        cadena[3] = String.valueOf(puntuacion);
+        
+        //Reemplaza la linea actualizada en la lista
+        lineas.set(actualID, String.join("_", cadena));
+        
+        // Escribe todas las líneas actualizadas de vuelta al archivo
+        try (BufferedWriter escribir = new BufferedWriter(new FileWriter(ruta))) {
+            for (String linea : lineas) {
+                escribir.write(linea);
+                escribir.newLine();
+            }
+        }  
+    }
+    
+    public String[] leerPuntuaciones() throws IOException{
+
+        List<String> archivo =  leerArchivo(); //Se lee el archivo
+        List<String> puntuacionesArchivos = new ArrayList<>();
+        String[] puntuacionesMaximas = {"S/N_0", "S/N_0", "S/N_0", "S/N_0"}; //Puntuaciones por DEFAULT
+        
+        for(String linea : archivo){ //Se recorre el archivo leido y se saca solo el nombre y puntuacion de todos los usuarios
+            String[] datos = linea.split("_");
+            puntuacionesArchivos.add(datos[1] + "_" + datos[3]); //En el campo 1 se encuentra el nombre del usuario y en el campo 3 su puntuacion
+        }
+        
+        List<String> puntuaciones = new ArrayList<>();
+        for(int i = 0; i < puntuacionesArchivos.size(); i++){ //Se llena una lista con solo las puntuaciones
+            String[] datos = puntuacionesArchivos.get(i).split("_");
+            puntuaciones.add(datos[1]); 
+        }
+        
+        for (int i = 0; i < 4; i++) {
+            if (puntuaciones.isEmpty()) { //Si se eliminaron mas elementos de los que habia
+                return puntuacionesMaximas;
+            }
+            int puntuacionMaxima = Integer.parseInt(puntuaciones.get(0)); //Se supone que el primer elemento de la lista es el mas grande
+            int puntuacionMaximaIndex = 0; //Index del mayor elemento
+            
+            for (int x = 0; x < puntuaciones.size(); x++) {
+                
+                if (Integer.parseInt(puntuaciones.get(x)) > puntuacionMaxima) {
+                    puntuacionMaxima = Integer.parseInt(puntuaciones.get(x));
+                    puntuacionMaximaIndex = x;
+                }
+            }
+            puntuaciones.remove(puntuacionMaximaIndex); //Se elimina el elemento mas grande la lista para busca el nuevo "mas grande"
+            puntuacionesMaximas[i] = puntuacionesArchivos.get(puntuacionMaximaIndex); //Se agrega el elemento al arreglo
+            puntuacionesArchivos.remove(puntuacionMaximaIndex);
+        }
+
+        return puntuacionesMaximas;
+    }
+    
 }

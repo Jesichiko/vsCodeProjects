@@ -14,8 +14,9 @@ import java.io.IOException;
 public class VistasControlador implements ActionListener{
     
     private LoginVista login;
-    private RegistroVista registro = new RegistroVista(this);
-    private MenuVista menu = new MenuVista(this);
+    private final RegistroVista registro = new RegistroVista(this);
+    private final MenuVista menu = new MenuVista(this);
+    private final PuntuacionesVista puntuaciones = new PuntuacionesVista(this);
     private UsuarioModelo modelo;
     private ArchivoUsuarios usuarios;
     private int ID;
@@ -90,17 +91,52 @@ public class VistasControlador implements ActionListener{
                 
                 //Se pone automaticamente la informacion escrita por el usuario en los campos de Iniciar Sesion
                 login.txtUsuario.setText(modelo.getUser());
-                login.txtPassword.setText(modelo.getPassword());    
+                login.txtPassword.setText(modelo.getPassword()); 
+                
+                //Se borra la informacion ingresada en el registro
+                registro.txtUsuario.setText("");
+                registro.txtPassword.setText("");
                 registro.dispose(); //Se cierra la vista del registro
 
             }else if (e.getSource() == menu.btnJugar){
-        
+                
+                Tetris tetris = new Tetris(this);
                 menu.dispose();
-                Tetris tetris = new Tetris();
+                tetris.setVisible(true);
                 tetris.blockgen();
-            
-            }else{  //Si se apreto el boton de puntuaciones
-                 
+ 
+            }else if (e.getSource() == menu.btnPuntuaciones){//Si se apreto el boton de puntuaciones
+               
+                String[] plPtn = usuarios.leerPuntuaciones(); //Se leen todas las puntuaciones
+                
+                for(int i = 0; i < 4; i++){
+                    String[] datos = plPtn[i].split("_");
+                    switch(i){
+                        case 0:
+                            puntuaciones.lbPlayer1.setText(datos[0]);
+                            puntuaciones.lbPunt1.setText(datos[1]);
+                            break;
+                        case 1:
+                            puntuaciones.lbPlayer2.setText(datos[0]);
+                            puntuaciones.lbPunt2.setText(datos[1]);
+                            break;
+                        case 2:
+                            puntuaciones.lbPlayer3.setText(datos[0]);
+                            puntuaciones.lbPunt3.setText(datos[1]);
+                            break;
+                        case 3:
+                            puntuaciones.lbPlayer4.setText(datos[0]);
+                            puntuaciones.lbPunt4.setText(datos[1]);
+                            break;
+                    }
+                }
+                
+                puntuaciones.setVisible(true);
+                    
+            }else{
+                
+                puntuaciones.cerrar();
+                menu.setVisible(true);
                     
             }
 
